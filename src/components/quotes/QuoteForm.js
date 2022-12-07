@@ -20,7 +20,10 @@ const QuoteForm = ({ onAddQuote, isLoading }) => {
 
     // optional: Could validate here
 
-    onAddQuote({ author: enteredAuthor, text: enteredText, comments: [] });
+    onAddQuote({
+      author: enteredAuthor,
+      text: enteredText,
+    });
     sendRequest();
   }
 

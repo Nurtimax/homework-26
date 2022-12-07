@@ -3,6 +3,7 @@ import axios from "axios";
 const BASE_URL = "https://quotes-test-project-default-rtdb.firebaseio.com/";
 
 export const AddQuote = async (quoteData) => {
+  console.log(quoteData);
   try {
     const response = await axios.post(`${BASE_URL}/quote.json`, quoteData);
     console.log(response, "post");
@@ -23,7 +24,7 @@ export const getAllQuotes = async () => {
         ...result[key],
       });
     }
-    console.log("get");
+    console.log("get", newArr);
     return newArr;
   } catch (error) {
     console.log(error);
@@ -38,19 +39,41 @@ export const getSingleQuote = async (quoteId) => {
     for (const key in result) {
       const findedQuote = {
         id: key,
-        comments: [result[key]],
+        comments: [],
         ...result[key],
       };
       newArr.push(findedQuote);
     }
 
-    console.log("single get");
     const findedQuote = {
       id: quoteId,
       data: newArr,
     };
 
     return findedQuote;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const deleteSingleQuote = async (quoteId) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/quote.json`);
+    console.log(response, "delete");
+  } catch (error) {
+    console.log(error);
+  }
+  getSingleQuote();
+};
+
+export const putSingleQuote = async (updateQuoteData) => {
+  getSingleQuote()
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/quote/${updateQuoteData.id}.json`,
+      updateQuoteData
+    );
+    console.log(response, "put data ");
+    getSingleQuote();
   } catch (error) {
     console.log(error);
   }

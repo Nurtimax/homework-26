@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import useHttp from "../../hook/use-http";
+import { deleteSingleQuote } from "../../utils/api";
 
 import QuoteItem from "./QuoteItem";
 import classes from "./QuoteList.module.css";
@@ -18,6 +20,8 @@ const QuoteList = ({ quotes }) => {
 
   const navigate = useNavigate();
 
+  const { sendRequest } = useHttp(deleteSingleQuote);
+
   const searchParams = new URLSearchParams(location.search);
   const isSortingAscending = searchParams.get("sort") === "asc";
 
@@ -30,6 +34,10 @@ const QuoteList = ({ quotes }) => {
 
   const sortedQuotes = sortQuotes(quotes, isSortingAscending);
 
+  const clearAllHandler = () => {
+    sendRequest();
+  };
+
   return (
     <Fragment>
       <div className={classes.sorting}>
@@ -37,6 +45,7 @@ const QuoteList = ({ quotes }) => {
           Sort {isSortingAscending ? "Descending" : "Ascending"}
         </button>
       </div>
+      <button onClick={clearAllHandler}>Clear All</button>
       <ul className={classes.list}>
         {sortedQuotes.map((quote) => (
           <QuoteItem
