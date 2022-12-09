@@ -1,7 +1,7 @@
 import CommentItem from "./CommentItem";
 import classes from "./CommentsList.module.css";
 
-const CommentsList = ({ comments }) => {
+const CommentsList = ({ comments = [] }) => {
   return (
     <ul className={classes.comments}>
       {comments.map((comment) => (

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useHttp from "../../hook/use-http";
 import { getSingleQuote } from "../../utils/api";
-import CommentItem from "./CommentItem";
 import classes from "./Comments.module.css";
+import CommentsList from "./CommentsList";
 import NewCommentForm from "./NewCommentForm";
 
 const Comments = ({ test }) => {
@@ -19,11 +19,15 @@ const Comments = ({ test }) => {
 
   const findedData = data?.data.find((el) => el.id === quoteId);
 
-  console.log(findedData, 'finded data comments');
+  console.log(findedData, "finded data comments");
 
   const startAddCommentHandler = () => {
     setIsAddingComment(true);
   };
+
+  const addedCommentHandler = useCallback(
+    () => {},[]
+  )
 
   return (
     <section className={classes.comments}>
@@ -34,14 +38,8 @@ const Comments = ({ test }) => {
         </button>
       )}
       {isAddingComment && <NewCommentForm sendRequest={sendRequest} />}
-      <p>Comments...</p>
       <p>
-        {findedData?.comments.map((comment, index) => (
-          <p>
-            <h1>{index + 1}</h1>
-            <CommentItem {...comment} key={comment.id} />
-          </p>
-        ))}
+        <CommentsList comments={findedData?.comments} />
       </p>
     </section>
   );

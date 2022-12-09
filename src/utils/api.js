@@ -32,6 +32,7 @@ export const getAllQuotes = async () => {
 };
 
 export const getSingleQuote = async (quoteId) => {
+  console.log("singlequote is working");
   try {
     const response = await axios.get(`${BASE_URL}/quote.json`);
     const result = response.data;
@@ -66,14 +67,15 @@ export const deleteSingleQuote = async (quoteId) => {
 };
 
 export const putSingleQuote = async (updateQuoteData) => {
-  getSingleQuote()
+  // getSingleQuote()
+  console.log("put data is working");
   try {
     const response = await axios.put(
       `${BASE_URL}/quote/${updateQuoteData.id}.json`,
       updateQuoteData
     );
     console.log(response, "put data ");
-    getSingleQuote();
+    getSingleQuote(updateQuoteData.id);
   } catch (error) {
     console.log(error);
   }

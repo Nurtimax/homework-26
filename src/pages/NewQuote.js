@@ -14,7 +14,7 @@ const NewQuote = () => {
     navigate("/quotes");
   };
 
-  return <QuoteForm onAddQuote={addQuoteHandler} />;
+  return <QuoteForm onAddQuote={addQuoteHandler} isLoading={status} />;
 };
 
 export default NewQuote;

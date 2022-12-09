@@ -13,8 +13,6 @@ const NewCommentForm = (props) => {
   const { sendRequest: getSingleQuoteFunction, data } = useHttp(getSingleQuote);
   const { sendRequest: putDataHandler } = useHttp(putSingleQuote);
 
-  const findedData = data?.data.find((el) => el.id === quoteId);
-
   useEffect(() => {
     getSingleQuoteFunction(quoteId);
   }, [quoteId, getSingleQuoteFunction]);
@@ -22,14 +20,9 @@ const NewCommentForm = (props) => {
   const submitFormHandler = (event) => {
     event.preventDefault();
 
-    // optional: Could validate here
+    const findedData = data?.data.find((el) => el.id === quoteId);
 
-    console.log(findedData);
-
-    // send comment to server
     if (findedData) {
-      getSingleQuoteFunction();
-      sendRequest();
       const updateQuoteData = {
         ...findedData,
         comments: [
@@ -39,14 +32,16 @@ const NewCommentForm = (props) => {
       };
       if (commentTextRef.current.value) {
         putDataHandler(updateQuoteData);
-        sendRequest();
+        getSingleQuoteFunction(quoteId);
+        sendRequest(quoteId);
+        getSingleQuoteFunction(quoteId);
       }
     }
   };
 
   return (
     <form className={classes.form} onSubmit={submitFormHandler}>
-      <div className={classes.control} onSubmit={submitFormHandler}>
+      <div className={classes.control}>
         <label htmlFor="comment">Your Comment</label>
         <textarea id="comment" rows="5" ref={commentTextRef}></textarea>
       </div>
